@@ -4,6 +4,7 @@ from tkinter import messagebox
 import os
 import shutil
 import argparse
+from pathlib import Path
 
 
 class GUI:
@@ -199,6 +200,8 @@ class GUI:
                         repr(ex)
                     ),
                 )
+        else:
+            os.makedirs(os.path.dirname(self.CFG_LOCATION))
 
         with open(self.CFG_LOCATION, "w", encoding="utf-8") as file:
             file.write("[Session]\n")
@@ -219,6 +222,11 @@ class GUI:
             "File written successfully",
             "Config file has been written successfully.",
         )
+        # else:
+        #     messagebox.showinfo(
+        #         "Config file doesn't exist.",
+        #         "Config file has been written successfully.",
+        #     )
         quit()
 
 
@@ -254,10 +262,14 @@ if __name__ == "__main__":
     backup_2_location = "~/slugscan/db/slugscan.cfg.backup.backup"
 
     if args.cfg_location is not None:
-        cfg_location = os.path.abspath(args.cfg_location)
+        cfg_location = args.cfg_location
     if args.backup_location is not None:
-        backup_location = os.path.abspath(args.backup_location)
+        backup_location = args.backup_location
     if args.backup_2_location is not None:
-        backup_2_location = os.path.abspath(args.backup_2_location)
+        backup_2_location = args.backup_2_location
 
-    gui = GUI(cfg_location, backup_location, backup_2_location)
+    gui = GUI(
+        Path(cfg_location).expanduser().resolve(),
+        Path(backup_location).expanduser().resolve(),
+        Path(backup_2_location).expanduser().resolve()
+    )
