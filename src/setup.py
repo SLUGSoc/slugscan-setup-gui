@@ -269,7 +269,7 @@ if __name__ == "__main__":
         backup_2_location = args.backup_2_location
 
     gui = GUI(
-        Path(cfg_location).expanduser().resolve(),
-        Path(backup_location).expanduser().resolve(),
-        Path(backup_2_location).expanduser().resolve()
+        str(Path(cfg_location).expanduser()),
+        str(Path(backup_location).expanduser()),
+        str(Path(backup_2_location).expanduser())
     )
